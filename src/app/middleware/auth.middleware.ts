@@ -4,7 +4,7 @@ import { User } from '../modules/User/user.model';
 import config from '../config';
 
 export interface AuthRequest extends Request {
-  user?: { userId: string; role: string };
+  user?: { userId: string; role?: string };
 }
 
 export const authenticate = async (
@@ -60,7 +60,7 @@ export const requireRole = (roles: string[]) => {
           .json({ success: false, message: 'Authentication required' });
         return;
       }
-      if (!roles.includes(req.user.role)) {
+      if (!roles.includes(req.user?.role ?? '')) {
         res
           .status(403)
           .json({ success: false, message: 'Insufficient permissions' });
