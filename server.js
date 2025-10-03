@@ -1,25 +1,25 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
+import express, { json } from 'express';
+import cors from 'cors';
+import { connect, connection } from 'mongoose';
 
 const app = express();
 
 // Database connection
 if (process.env.DATABASE_URL) {
-  mongoose
-    .connect(process.env.DATABASE_URL)
+  connect(process.env.DATABASE_URL)
     .then(() => {
-      console.log('Database connected successfully');
+      
     })
     .catch((err) => {
-      console.error('Failed to connect to database:', err);
+      throw new Error(err)
+      
     });
 } else {
   console.log('No DATABASE_URL provided, skipping database connection');
 }
 
 // Middleware
-app.use(express.json());
+app.use(json());
 
 // Handle double slashes in URLs
 app.use((req, res, next) => {
@@ -122,7 +122,7 @@ app.get('/status', (req, res) => {
   res.status(200).json({
     status: 'API is running',
     database:
-      mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected',
+      connection.readyState === 1 ? 'Connected' : 'Disconnected',
     timestamp: new Date().toISOString(),
   });
 });
@@ -255,4 +255,4 @@ app.use('*', (req, res) => {
   });
 });
 
-module.exports = app;
+export default app;
