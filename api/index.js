@@ -1,6 +1,6 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
+import express from "express";
+import cors from 'cors';
+import mongoose from 'mongoose';
 
 const app = express();
 
@@ -170,4 +170,5 @@ app.use('*', (req, res) => {
   });
 });
 
+// eslint-disable-next-line no-undef
 module.exports = app;
