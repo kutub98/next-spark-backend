@@ -36,7 +36,7 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5000',
   'https://api-qc-server-v1.vercel.app',
-  'https://next-spark-backend.vercel.app/',
+  'https://next-spark-backend.vercel.app', // ✅
 ];
 
 app.use(
@@ -170,5 +170,7 @@ app.use('*', (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+
 
 module.exports = app;
