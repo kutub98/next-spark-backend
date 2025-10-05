@@ -31,6 +31,9 @@ const moduleRoutes: TModuleRoutes[] = [
   { path: '/participations', route: ParticipationRouter },
 ];
 
-moduleRoutes.forEach((route) => router.use(route.path, route.route));
+moduleRoutes.forEach((route) => {
+  router.use(route.path, route.route);
+  console.log(`✅ Registered route: /api/v1${route.path}`);
+});
 
 export default router;

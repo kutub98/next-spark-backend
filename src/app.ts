@@ -107,7 +107,10 @@ app.get('/health', (req, res) => {
   });
 });
 
+// app.use('/api/v1', router);
+
 app.use('/api/v1', router);
+app.use('/', router);
 
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
