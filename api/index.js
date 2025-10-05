@@ -1,8 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
-const app = express();
+const app = require('../dist/server').default || require('../dist/server');
 
 // Database connection
 if (process.env.DATABASE_URL) {
@@ -170,7 +169,5 @@ app.use('*', (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
-
-
 
 module.exports = app;
