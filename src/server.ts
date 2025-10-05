@@ -2,36 +2,20 @@ import mongoose from 'mongoose';
 import app from './app';
 import config from './app/config';
 
-// Connect to MongoDB only if DATABASE_URL is available
 if (config.database_url) {
   mongoose
     .connect(config.database_url as string)
-    .then(() => {
-      console.log('Database connected successfully');
-    })
-    .catch((err) => {
-      console.error('Failed to connect to database:', err);
-    });
-} else {
-  console.log('No DATABASE_URL provided, skipping database connection');
+    .then(() => console.log('✅ Database connected'))
+    .catch((err) => console.error('❌ DB connection failed:', err));
 }
 
-// Start server
-const PORT = config.port || 5000;
-try {
+// Only run the server locally, not in Vercel
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = config.port || 5000;
   app.listen(PORT, () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
-    console.log(`📱 API URL: http://localhost:${PORT}`);
-    console.log(`🏥 Health Check: http://localhost:${PORT}/health`);
+    console.log(`🚀 Server running at http://localhost:${PORT}`);
   });
-} catch (error) {
-  console.error('Failed to start server:', error);
 }
 
-// Export the app for Vercel
+// Export for Vercel
 export default app;
-
-// Handle unhandled rejections
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-});
