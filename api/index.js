@@ -1,8 +1,12 @@
-import express, { json } from 'express';
+import { json } from 'express';
 import cors from 'cors';
 import { connect, connection } from 'mongoose';
+import { app, connectDB } from '../dist/server';
 
-const app = express();
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 
 // Database connection
 if (process.env.DATABASE_URL) {
@@ -115,8 +119,7 @@ app.get('/api/v1/test', (req, res) => {
 app.get('/api/v1/status', (req, res) => {
   res.status(200).json({
     status: 'API is running',
-    database:
-      connection.readyState === 1 ? 'Connected' : 'Disconnected',
+    database: connection.readyState === 1 ? 'Connected' : 'Disconnected',
     timestamp: new Date().toISOString(),
   });
 });
