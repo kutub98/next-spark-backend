@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const app = require('../dist/server').default || require('../dist/server');
+
+const app = express();
 
 // Database connection
 if (process.env.DATABASE_URL) {
@@ -35,7 +36,7 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5000',
   'https://api-qc-server-v1.vercel.app',
-  'https://next-spark-backend.vercel.app', // ✅
+  'https://quiz-contest-fr.vercel.app',
 ];
 
 app.use(
