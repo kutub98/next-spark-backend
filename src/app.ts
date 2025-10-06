@@ -97,6 +97,12 @@ app.get('/', (req, res) => {
   });
 });
 
+app.use('/testing', (req, res) => {
+  res.status(200).json({
+    test: 'testing',
+  });
+});
+
 app.get('/health', (req, res) => {
   res.status(200).json({
     project: 'Quiz Contest Backend',
