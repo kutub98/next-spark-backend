@@ -18,20 +18,19 @@ if (config.database_url) {
 
 // Start server
 const PORT = config.port || 5000;
-try {
+if (!process.env.VERCEL) {
+  // 👈 only run locally
   app.listen(PORT, () => {
     console.log(`🚀 Server is running on port ${PORT}`);
-    console.log(`📱 API URL: http://localhost:${PORT}`);
-    console.log(`🏥 Health Check: http://localhost:${PORT}/health`);
   });
-} catch (error) {
-  console.error('Failed to start server:', error);
 }
 
-// Export the app for Vercel
-export default app;
+
 
 // Handle unhandled rejections
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
+
+// Export the app for Vercel
+export default app;
