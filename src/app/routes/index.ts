@@ -16,6 +16,7 @@ type TModuleRoutes = {
 };
 
 const router = Router();
+console.log('Loading route modules...');
 
 const moduleRoutes: TModuleRoutes[] = [
   { path: '/banner', route: BannerRoutes },
@@ -32,8 +33,15 @@ const moduleRoutes: TModuleRoutes[] = [
 ];
 
 moduleRoutes.forEach((route) => {
-  router.use(route.path, route.route);
-  console.log(`✅ Registered route: /api/v1${route.path}`);
+  try {
+    if (!route.route) {
+      throw new Error(`Route module for ${route.path} is undefined`);
+    }
+    router.use(route.path, route.route);
+    console.log(`✅ Registered route: /api/v1${route.path}`);
+  } catch (error) {
+    console.error(`Failed to register route /api/v1${route.path}:`, error);
+  }
 });
 
 export default router;
