@@ -33,8 +33,6 @@ app.use((req, res, next) => {
 // CORS configuration - Allow specific origins
 const allowedOrigins = [
   'https://qc-client-beige.vercel.app',
-  'http://localhost:3000',
-  'http://localhost:5000',
   'https://api-qc-server-v1.vercel.app',
   'https://next-spark-fr.vercel.app',
 ];
