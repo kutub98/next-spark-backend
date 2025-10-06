@@ -1,4 +1,4 @@
-import express from "express";
+import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 
@@ -36,6 +36,7 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5000',
   'https://api-qc-server-v1.vercel.app',
+  'https://next-spark-fr.vercel.app',
 ];
 
 app.use(
