@@ -1,31 +1,38 @@
+import { Server } from 'http';
 import mongoose from 'mongoose';
 import app from './app';
 import config from './app/config';
 
-// Connect to MongoDB only if DATABASE_URL is available
-if (config.database_url) {
-  mongoose
-    .connect(config.database_url as string)
-    .then(() => console.log('✅ Database connected'))
-    .catch((err) => console.error('❌ DB connection failed:', err));
-} else {
-  console.log('No DATABASE_URL provided, skipping database connection');
+let server: Server;
+
+function main() {
+  try {
+    // mongoose.connect(
+    //   'mongodb+srv://Hafejia-Travel-Tours:3zzwkF4c39lL3Mpp@cluster0.mlxcjcs.mongodb.net/Hafejia-Travel-Tours?retryWrites=true&w=majority&appName=Cluster0',
+    // );
+    mongoose.connect(config.database_url as string);
+
+    server = app.listen(config.port, () => {
+      console.log(`app is listening on port ${config.port}`);
+    });
+  } catch (err) {
+    console.log(err);
+  }
 }
 
-const PORT = config.port || 5000;
+main();
 
-if (!process.env.VERCEL) {
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running locally on http://localhost:${PORT}`);
-  });
-}
-
-// Handle unhandled rejections
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-  // Optionally, exit the process to prevent hanging (not recommended for Vercel)
-  // process.exit(1);
+process.on('unhandledRejection', (err) => {
+  console.log(`😈 unahandledRejection is detected , shutting down ...`, err);
+  if (server) {
+    server.close(() => {
+      process.exit(1);
+    });
+  }
+  process.exit(1);
 });
 
-// Export the app for Vercel
-export default app;
+process.on('uncaughtException', () => {
+  console.log(`😈 uncaughtException is detected , shutting down ...`);
+  process.exit(1);
+});
