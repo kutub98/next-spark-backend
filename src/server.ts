@@ -6,21 +6,10 @@ import config from './app/config';
 if (config.database_url) {
   mongoose
     .connect(config.database_url as string)
-    .then(() => {
-      console.log('Database connected successfully');
-    })
-    .catch((err) => {
-      console.error('Failed to connect to database:', err);
-    });
-} else {
-  console.log('No DATABASE_URL provided, skipping database connection');
-}
-
-if (config.database_url) {
-  mongoose
-    .connect(config.database_url)
     .then(() => console.log('✅ Database connected'))
     .catch((err) => console.error('❌ DB connection failed:', err));
+} else {
+  console.log('No DATABASE_URL provided, skipping database connection');
 }
 
 const PORT = config.port || 5000;
@@ -34,6 +23,8 @@ if (!process.env.VERCEL) {
 // Handle unhandled rejections
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // Optionally, exit the process to prevent hanging (not recommended for Vercel)
+  // process.exit(1);
 });
 
 // Export the app for Vercel

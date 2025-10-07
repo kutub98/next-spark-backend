@@ -6,7 +6,7 @@ import cors from 'cors';
 import express, { Application } from 'express';
 import globalErrorHandler from './app/middlewares/globalErrorhandler';
 import notFound from './app/middlewares/notFound';
-import router from './app/routes';
+import router from './app/routes'; // Assume this router uses /v1 paths internally
 import path from 'path';
 
 const app: Application = express();
@@ -84,14 +84,14 @@ app.get('/', (req, res) => {
     timestamp: new Date().toISOString(),
     baseUrl: baseUrl,
     endpoints: {
-      health: `${baseUrl}/health`,
+      health: `${baseUrl}/api/health`,
       api: `${baseUrl}/api/v1`,
-      uploads: `${baseUrl}/uploads`,
+      uploads: `${baseUrl}/api/uploads`,
     },
     availableRoutes: {
       'GET /': 'API Information (this page)',
       'GET /health': 'Health check endpoint',
-      'GET /api/v1/*': 'Main API endpoints',
+      'GET /v1/*': 'Main API endpoints', // Updated: no /api prefix here
       'GET /uploads/*': 'Static file uploads',
     },
   });
@@ -113,8 +113,10 @@ app.get('/health', (req, res) => {
   });
 });
 
-app.use('/api/v1', router);
+// Updated: Use /v1 instead of /api/v1
+app.use('/v1', router);
 
+// Updated: Adjust for Vercel (uploads will be /api/uploads)
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 app.use(globalErrorHandler);
