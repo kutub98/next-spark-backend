@@ -16,16 +16,20 @@ if (config.database_url) {
   console.log('No DATABASE_URL provided, skipping database connection');
 }
 
-// Start server
-const PORT = config.port || 5000;
-if (!process.env.VERCEL) {
-  // 👈 only run locally
-  app.listen(PORT, () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
-  });
+if (config.database_url) {
+  mongoose
+    .connect(config.database_url)
+    .then(() => console.log('✅ Database connected'))
+    .catch((err) => console.error('❌ DB connection failed:', err));
 }
 
+const PORT = config.port || 5000;
 
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running locally on http://localhost:${PORT}`);
+  });
+}
 
 // Handle unhandled rejections
 process.on('unhandledRejection', (reason, promise) => {
