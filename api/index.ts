@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-ignore
-import app from '../dist/server'; // Adjusted path to compiled output
-import serverless from 'serverless-http';
+import app from '../src/server';
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const handler = serverless(app);
-export default handler;
-
-export const config = {
-  api: { bodyParser: false },
+export default (req: VercelRequest, res: VercelResponse) => {
+  app(req, res);
 };
