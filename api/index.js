@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
-
+import router from '../src/app/routes';
 const app = express();
 
 // Database connection
@@ -20,6 +20,8 @@ if (process.env.DATABASE_URL) {
 
 // Middleware
 app.use(express.json());
+
+app.use('/api/v1', router);
 
 // Handle double slashes in URLs
 app.use((req, res, next) => {
@@ -232,7 +234,7 @@ app.get('/faq', (req, res) => {
   res.status(200).json({
     success: true,
     data: [],
-    message: 'FAQ endpoint - This would return FAQ dataa',
+    message: 'FAQ endpoint - This would return FAQ data',
     timestamp: new Date().toISOString(),
   });
 });
