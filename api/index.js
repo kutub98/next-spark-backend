@@ -232,7 +232,7 @@ app.get('/faq', (req, res) => {
   res.status(200).json({
     success: true,
     data: [],
-    message: 'FAQ endpoint - This would return FAQ data',
+    message: 'FAQ endpoint - This would return FAQ dataa',
     timestamp: new Date().toISOString(),
   });
 });
